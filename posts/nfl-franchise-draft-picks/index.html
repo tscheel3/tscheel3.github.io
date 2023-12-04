@@ -172,9 +172,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>For many fans, the next NFL draft is the only sliver of hope in an otherwise bleak season. The potential of getting a top quarterback in April has bad franchises willing to lose every game on their schedule to make it happen. There are many factors involved in building a successful NFL franchise, but drafting well is vital to building a true dynasty. So which franchises have drafted the best lately?</p>
-<p>To help answer the question, I used the Pro Football Reference statistic called Approximate Value (AV). AV is a method created by PFR founder Doug Drinen that calculates a number to represent the seasonal value of any NFL player. Career Approximate Value (cAV) is the accumulation of AV for a player. The problem with using cAV to compare players is the number will be bigger for players who have been playing longer. According to the raw statistic, Demarcus Robinson (19 cAV) is a more valuable player than Garrett Wilson (8 cAV). I’d be willing to bet any NFL fan would rather have prime Garrett Wilson over prime Demarcus Robinson on their team. My solution to this problem was to calculate a draft class AV share. I simply added up the total career AV for every draft class, then divided each player’s drafted AV by that number. Here’s an example. Jalen Ramsey, who was drafted in 2016, had an AV of 29 with the team that drafted him. The total drafted AV for the 2016 class is 2,870. 29/2,870 is 0.0101, so Jalen Ramsey’s Drafted AV Share is 1.01%. This percentage allows me to compare any player from any draft class.</p>
-<p>Drafted AV alone doesn’t account for where the player was picked in the draft. We can’t expect a sixth round pick to perform at the same level as a first rounder. To get around this problem, I grouped every pick from 2015 to 2022 by pick range, then averaged the Drafted AV Share for each range to create the Expected Drafted AV Share. Here are the results.</p>
+<p>For many fans, the next NFL draft is the only sliver of hope in an otherwise bleak season. The potential of getting a top quarterback in April tempts failing franchises to lose every game on their schedule to make it happen. There are many factors involved in building a successful NFL franchise, but drafting well is vital to building a true dynasty. This begs the question, which franchises have drafted the best lately?</p>
+<p>To help answer the question, I used the Pro Football Reference (PFR) statistic called Approximate Value (AV). AV is a method created by PFR founder Doug Drinen that calculates a number to represent the seasonal value of any NFL player. Career Approximate Value (cAV) is the accumulation of AV for a player throughout their career. The problem with using cAV to compare players is the number will be bigger for players who have been playing longer. According to the raw statistic, Demarcus Robinson (19 cAV) is a more valuable player than Garrett Wilson (8 cAV). I’d be willing to bet any NFL fan would rather have prime Garrett Wilson over prime Demarcus Robinson on their team. My solution to this problem was to calculate a draft class AV share. I simply added up the total cAV for every draft class, then divided each player’s drafted AV by that number.</p>
+<p>Here’s an example. Jalen Ramsey, who was drafted in 2016, had an AV of 29 with the team that drafted him. The total drafted AV (DrAV) for the 2016 class is 2,870. 29 divided by 2,870 is 0.0101, so Jalen Ramsey’s Drafted AV Share is 1.01%. This percentage allows me to compare any player from any draft class.</p>
+<p>But drafted AV itself doesn’t account for where the player was picked in the draft. We can’t expect a sixth round pick to perform at the same level as a first rounder. To get around this problem, I grouped every draft pick from 2015 to 2022 by pick range, then averaged the Drafted AV Share for each range to create the Expected Drafted AV Share. Here are the results.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -261,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>PickRangePct <span class="sc">|&gt;</span> <span class="fu">group_by</span>(PickRange) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">AvgAVExp =</span> <span class="fu">mean</span>(DrAVpct)) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">FirstSort =</span> PickRange) <span class="sc">|&gt;</span> <span class="fu">separate</span>(FirstSort, <span class="at">into=</span><span class="fu">c</span>(<span class="st">"Sort"</span>, <span class="st">"Other"</span>)) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">as.numeric</span>(Sort)) <span class="sc">|&gt;</span> <span class="fu">select</span>(PickRange, AvgAVExp) <span class="sc">|&gt;</span> <span class="fu">gt</span>() <span class="sc">|&gt;</span> <span class="fu">cols_label</span>(</span>
 <span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">PickRange =</span> <span class="st">"Pick Range"</span>,</span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">AvgAVExp =</span> <span class="st">"Expected AV"</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">AvgAVExp =</span> <span class="st">"Expected Drafted AV Share"</span></span>
 <span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
 <span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"2015 to 2022"</span></span>
@@ -286,23 +287,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output-display">
 
-<div id="jsuypyhfyb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jsuypyhfyb table {
+<div id="ztvbvlgcav" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ztvbvlgcav table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jsuypyhfyb thead, #jsuypyhfyb tbody, #jsuypyhfyb tfoot, #jsuypyhfyb tr, #jsuypyhfyb td, #jsuypyhfyb th {
+#ztvbvlgcav thead, #ztvbvlgcav tbody, #ztvbvlgcav tfoot, #ztvbvlgcav tr, #ztvbvlgcav td, #ztvbvlgcav th {
   border-style: none;
 }
 
-#jsuypyhfyb p {
+#ztvbvlgcav p {
   margin: 0;
   padding: 0;
 }
 
-#jsuypyhfyb .gt_table {
+#ztvbvlgcav .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -328,12 +329,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#jsuypyhfyb .gt_caption {
+#ztvbvlgcav .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jsuypyhfyb .gt_title {
+#ztvbvlgcav .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -345,7 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#jsuypyhfyb .gt_subtitle {
+#ztvbvlgcav .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -357,7 +358,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#jsuypyhfyb .gt_heading {
+#ztvbvlgcav .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -369,13 +370,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jsuypyhfyb .gt_bottom_border {
+#ztvbvlgcav .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jsuypyhfyb .gt_col_headings {
+#ztvbvlgcav .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -390,7 +391,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jsuypyhfyb .gt_col_heading {
+#ztvbvlgcav .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -410,7 +411,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#jsuypyhfyb .gt_column_spanner_outer {
+#ztvbvlgcav .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -422,15 +423,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#jsuypyhfyb .gt_column_spanner_outer:first-child {
+#ztvbvlgcav .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jsuypyhfyb .gt_column_spanner_outer:last-child {
+#ztvbvlgcav .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jsuypyhfyb .gt_column_spanner {
+#ztvbvlgcav .gt_column_spanner {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -442,11 +443,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#jsuypyhfyb .gt_spanner_row {
+#ztvbvlgcav .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jsuypyhfyb .gt_group_heading {
+#ztvbvlgcav .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -472,7 +473,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#jsuypyhfyb .gt_empty_group_heading {
+#ztvbvlgcav .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -487,15 +488,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#jsuypyhfyb .gt_from_md > :first-child {
+#ztvbvlgcav .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jsuypyhfyb .gt_from_md > :last-child {
+#ztvbvlgcav .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jsuypyhfyb .gt_row {
+#ztvbvlgcav .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -514,7 +515,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#jsuypyhfyb .gt_stub {
+#ztvbvlgcav .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -527,7 +528,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jsuypyhfyb .gt_stub_row_group {
+#ztvbvlgcav .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -541,15 +542,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#jsuypyhfyb .gt_row_group_first td {
+#ztvbvlgcav .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jsuypyhfyb .gt_row_group_first th {
+#ztvbvlgcav .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jsuypyhfyb .gt_summary_row {
+#ztvbvlgcav .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -559,16 +560,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jsuypyhfyb .gt_first_summary_row {
+#ztvbvlgcav .gt_first_summary_row {
   border-top-style: none;
   border-top-color: #D3D3D3;
 }
 
-#jsuypyhfyb .gt_first_summary_row.thick {
+#ztvbvlgcav .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jsuypyhfyb .gt_last_summary_row {
+#ztvbvlgcav .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -578,7 +579,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jsuypyhfyb .gt_grand_summary_row {
+#ztvbvlgcav .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -588,7 +589,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jsuypyhfyb .gt_first_grand_summary_row {
+#ztvbvlgcav .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -598,7 +599,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#jsuypyhfyb .gt_last_grand_summary_row_top {
+#ztvbvlgcav .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -608,11 +609,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jsuypyhfyb .gt_striped {
+#ztvbvlgcav .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jsuypyhfyb .gt_table_body {
+#ztvbvlgcav .gt_table_body {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -621,7 +622,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jsuypyhfyb .gt_footnotes {
+#ztvbvlgcav .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -635,7 +636,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jsuypyhfyb .gt_footnote {
+#ztvbvlgcav .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -644,7 +645,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jsuypyhfyb .gt_sourcenotes {
+#ztvbvlgcav .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -658,7 +659,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jsuypyhfyb .gt_sourcenote {
+#ztvbvlgcav .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -666,63 +667,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jsuypyhfyb .gt_left {
+#ztvbvlgcav .gt_left {
   text-align: left;
 }
 
-#jsuypyhfyb .gt_center {
+#ztvbvlgcav .gt_center {
   text-align: center;
 }
 
-#jsuypyhfyb .gt_right {
+#ztvbvlgcav .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jsuypyhfyb .gt_font_normal {
+#ztvbvlgcav .gt_font_normal {
   font-weight: normal;
 }
 
-#jsuypyhfyb .gt_font_bold {
+#ztvbvlgcav .gt_font_bold {
   font-weight: bold;
 }
 
-#jsuypyhfyb .gt_font_italic {
+#ztvbvlgcav .gt_font_italic {
   font-style: italic;
 }
 
-#jsuypyhfyb .gt_super {
+#ztvbvlgcav .gt_super {
   font-size: 65%;
 }
 
-#jsuypyhfyb .gt_footnote_marks {
+#ztvbvlgcav .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jsuypyhfyb .gt_asterisk {
+#ztvbvlgcav .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jsuypyhfyb .gt_indent_1 {
+#ztvbvlgcav .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jsuypyhfyb .gt_indent_2 {
+#ztvbvlgcav .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jsuypyhfyb .gt_indent_3 {
+#ztvbvlgcav .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jsuypyhfyb .gt_indent_4 {
+#ztvbvlgcav .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jsuypyhfyb .gt_indent_5 {
+#ztvbvlgcav .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -734,7 +735,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
     <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;" scope="col" id="Pick Range">Pick Range</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;" scope="col" id="Expected AV">Expected AV</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 12; font-weight: bold;" scope="col" id="Expected Drafted AV Share">Expected Drafted AV Share</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -777,7 +778,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Now all I had to do was subtract the players’ Expected Drafted AV Share from their Drafted AV Share to find the difference. This scatterplot shows every pick and their Expected Drafted AV Share vs Drafted AV Share. Highlighted are the top 10 biggest overachievers as well as the three biggest underachievers based on their pick range and Drafted AV Share.</p>
+<p>Now all I had to do was to find the difference by subtracting the players’ Expected Drafted AV Share from their Drafted AV Share. This scatterplot shows every pick and their Expected Drafted AV Share vs Drafted AV Share. Highlighted are the top 10 biggest overachievers as well as the three biggest underachievers based on their pick range and Drafted AV Share.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -791,7 +792,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Expected Drafted AV Share"</span>, </span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Drafted AV Share"</span>, </span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Star Players Can Be Found in Every Round"</span>, </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Patrick Mahomes leads in Drafted AV Share, but Dak Prescott is the biggest overachiever based </span><span class="sc">\n</span><span class="st"> on pick range"</span>, </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Patrick Mahomes leads in Drafted AV Share, but Dak Prescott is the biggest overachiever based </span><span class="sc">\n</span><span class="st"> on Expected Drafted AV Share"</span>, </span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Pro Football Reference | Tyler Scheel"</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span> </span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
@@ -823,9 +824,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Drafted AV Share"</span>,</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">""</span>,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"The Chiefs Draft Picks Outperform their Class Mates"</span>, </span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"The red dots represent the Expected Approximate Value of all their picks, the blue dots </span><span class="sc">\n</span><span class="st"> represent actual Drafted AV Share"</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Sports Reference | By: Tyler Scheel"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"The Chiefs Draft Picks Outperform Expectations"</span>, </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"The red dots represent the Expected Drafted AV Share of all their picks, the blue dots represent </span><span class="sc">\n</span><span class="st"> the actual Drafted AV Share"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Pro Football Reference | By: Tyler Scheel"</span></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
@@ -890,23 +891,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output-display">
 
-<div id="trzpolkhlk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#trzpolkhlk table {
+<div id="zekkzyrhqg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zekkzyrhqg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#trzpolkhlk thead, #trzpolkhlk tbody, #trzpolkhlk tfoot, #trzpolkhlk tr, #trzpolkhlk td, #trzpolkhlk th {
+#zekkzyrhqg thead, #zekkzyrhqg tbody, #zekkzyrhqg tfoot, #zekkzyrhqg tr, #zekkzyrhqg td, #zekkzyrhqg th {
   border-style: none;
 }
 
-#trzpolkhlk p {
+#zekkzyrhqg p {
   margin: 0;
   padding: 0;
 }
 
-#trzpolkhlk .gt_table {
+#zekkzyrhqg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -932,12 +933,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#trzpolkhlk .gt_caption {
+#zekkzyrhqg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#trzpolkhlk .gt_title {
+#zekkzyrhqg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -949,7 +950,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#trzpolkhlk .gt_subtitle {
+#zekkzyrhqg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -961,7 +962,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#trzpolkhlk .gt_heading {
+#zekkzyrhqg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -973,13 +974,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#trzpolkhlk .gt_bottom_border {
+#zekkzyrhqg .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#trzpolkhlk .gt_col_headings {
+#zekkzyrhqg .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -994,7 +995,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#trzpolkhlk .gt_col_heading {
+#zekkzyrhqg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1014,7 +1015,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#trzpolkhlk .gt_column_spanner_outer {
+#zekkzyrhqg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1026,15 +1027,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#trzpolkhlk .gt_column_spanner_outer:first-child {
+#zekkzyrhqg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#trzpolkhlk .gt_column_spanner_outer:last-child {
+#zekkzyrhqg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#trzpolkhlk .gt_column_spanner {
+#zekkzyrhqg .gt_column_spanner {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1046,11 +1047,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#trzpolkhlk .gt_spanner_row {
+#zekkzyrhqg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#trzpolkhlk .gt_group_heading {
+#zekkzyrhqg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1076,7 +1077,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#trzpolkhlk .gt_empty_group_heading {
+#zekkzyrhqg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1091,15 +1092,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#trzpolkhlk .gt_from_md > :first-child {
+#zekkzyrhqg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#trzpolkhlk .gt_from_md > :last-child {
+#zekkzyrhqg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#trzpolkhlk .gt_row {
+#zekkzyrhqg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1118,7 +1119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#trzpolkhlk .gt_stub {
+#zekkzyrhqg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1131,7 +1132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#trzpolkhlk .gt_stub_row_group {
+#zekkzyrhqg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1145,15 +1146,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#trzpolkhlk .gt_row_group_first td {
+#zekkzyrhqg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#trzpolkhlk .gt_row_group_first th {
+#zekkzyrhqg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#trzpolkhlk .gt_summary_row {
+#zekkzyrhqg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1163,16 +1164,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#trzpolkhlk .gt_first_summary_row {
+#zekkzyrhqg .gt_first_summary_row {
   border-top-style: none;
   border-top-color: #D3D3D3;
 }
 
-#trzpolkhlk .gt_first_summary_row.thick {
+#zekkzyrhqg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#trzpolkhlk .gt_last_summary_row {
+#zekkzyrhqg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1182,7 +1183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#trzpolkhlk .gt_grand_summary_row {
+#zekkzyrhqg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1192,7 +1193,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#trzpolkhlk .gt_first_grand_summary_row {
+#zekkzyrhqg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1202,7 +1203,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#trzpolkhlk .gt_last_grand_summary_row_top {
+#zekkzyrhqg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1212,11 +1213,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#trzpolkhlk .gt_striped {
+#zekkzyrhqg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#trzpolkhlk .gt_table_body {
+#zekkzyrhqg .gt_table_body {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1225,7 +1226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#trzpolkhlk .gt_footnotes {
+#zekkzyrhqg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1239,7 +1240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#trzpolkhlk .gt_footnote {
+#zekkzyrhqg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1248,7 +1249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#trzpolkhlk .gt_sourcenotes {
+#zekkzyrhqg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1262,7 +1263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#trzpolkhlk .gt_sourcenote {
+#zekkzyrhqg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1270,63 +1271,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#trzpolkhlk .gt_left {
+#zekkzyrhqg .gt_left {
   text-align: left;
 }
 
-#trzpolkhlk .gt_center {
+#zekkzyrhqg .gt_center {
   text-align: center;
 }
 
-#trzpolkhlk .gt_right {
+#zekkzyrhqg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#trzpolkhlk .gt_font_normal {
+#zekkzyrhqg .gt_font_normal {
   font-weight: normal;
 }
 
-#trzpolkhlk .gt_font_bold {
+#zekkzyrhqg .gt_font_bold {
   font-weight: bold;
 }
 
-#trzpolkhlk .gt_font_italic {
+#zekkzyrhqg .gt_font_italic {
   font-style: italic;
 }
 
-#trzpolkhlk .gt_super {
+#zekkzyrhqg .gt_super {
   font-size: 65%;
 }
 
-#trzpolkhlk .gt_footnote_marks {
+#zekkzyrhqg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#trzpolkhlk .gt_asterisk {
+#zekkzyrhqg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#trzpolkhlk .gt_indent_1 {
+#zekkzyrhqg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#trzpolkhlk .gt_indent_2 {
+#zekkzyrhqg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#trzpolkhlk .gt_indent_3 {
+#zekkzyrhqg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#trzpolkhlk .gt_indent_4 {
+#zekkzyrhqg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#trzpolkhlk .gt_indent_5 {
+#zekkzyrhqg .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1488,23 +1489,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output-display">
 
-<div id="bfyzhilrpu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bfyzhilrpu table {
+<div id="ifnmphicbv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ifnmphicbv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bfyzhilrpu thead, #bfyzhilrpu tbody, #bfyzhilrpu tfoot, #bfyzhilrpu tr, #bfyzhilrpu td, #bfyzhilrpu th {
+#ifnmphicbv thead, #ifnmphicbv tbody, #ifnmphicbv tfoot, #ifnmphicbv tr, #ifnmphicbv td, #ifnmphicbv th {
   border-style: none;
 }
 
-#bfyzhilrpu p {
+#ifnmphicbv p {
   margin: 0;
   padding: 0;
 }
 
-#bfyzhilrpu .gt_table {
+#ifnmphicbv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1530,12 +1531,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#bfyzhilrpu .gt_caption {
+#ifnmphicbv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bfyzhilrpu .gt_title {
+#ifnmphicbv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1547,7 +1548,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#bfyzhilrpu .gt_subtitle {
+#ifnmphicbv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1559,7 +1560,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#bfyzhilrpu .gt_heading {
+#ifnmphicbv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1571,13 +1572,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#bfyzhilrpu .gt_bottom_border {
+#ifnmphicbv .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bfyzhilrpu .gt_col_headings {
+#ifnmphicbv .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1592,7 +1593,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#bfyzhilrpu .gt_col_heading {
+#ifnmphicbv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1612,7 +1613,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#bfyzhilrpu .gt_column_spanner_outer {
+#ifnmphicbv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1624,15 +1625,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#bfyzhilrpu .gt_column_spanner_outer:first-child {
+#ifnmphicbv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bfyzhilrpu .gt_column_spanner_outer:last-child {
+#ifnmphicbv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bfyzhilrpu .gt_column_spanner {
+#ifnmphicbv .gt_column_spanner {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1644,11 +1645,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#bfyzhilrpu .gt_spanner_row {
+#ifnmphicbv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bfyzhilrpu .gt_group_heading {
+#ifnmphicbv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1674,7 +1675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#bfyzhilrpu .gt_empty_group_heading {
+#ifnmphicbv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1689,15 +1690,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#bfyzhilrpu .gt_from_md > :first-child {
+#ifnmphicbv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bfyzhilrpu .gt_from_md > :last-child {
+#ifnmphicbv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bfyzhilrpu .gt_row {
+#ifnmphicbv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1716,7 +1717,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#bfyzhilrpu .gt_stub {
+#ifnmphicbv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1729,7 +1730,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#bfyzhilrpu .gt_stub_row_group {
+#ifnmphicbv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1743,15 +1744,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#bfyzhilrpu .gt_row_group_first td {
+#ifnmphicbv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bfyzhilrpu .gt_row_group_first th {
+#ifnmphicbv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bfyzhilrpu .gt_summary_row {
+#ifnmphicbv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1761,16 +1762,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#bfyzhilrpu .gt_first_summary_row {
+#ifnmphicbv .gt_first_summary_row {
   border-top-style: none;
   border-top-color: #D3D3D3;
 }
 
-#bfyzhilrpu .gt_first_summary_row.thick {
+#ifnmphicbv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bfyzhilrpu .gt_last_summary_row {
+#ifnmphicbv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1780,7 +1781,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#bfyzhilrpu .gt_grand_summary_row {
+#ifnmphicbv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1790,7 +1791,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#bfyzhilrpu .gt_first_grand_summary_row {
+#ifnmphicbv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1800,7 +1801,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#bfyzhilrpu .gt_last_grand_summary_row_top {
+#ifnmphicbv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1810,11 +1811,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#bfyzhilrpu .gt_striped {
+#ifnmphicbv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bfyzhilrpu .gt_table_body {
+#ifnmphicbv .gt_table_body {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1823,7 +1824,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#bfyzhilrpu .gt_footnotes {
+#ifnmphicbv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1837,7 +1838,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#bfyzhilrpu .gt_footnote {
+#ifnmphicbv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1846,7 +1847,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#bfyzhilrpu .gt_sourcenotes {
+#ifnmphicbv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1860,7 +1861,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#bfyzhilrpu .gt_sourcenote {
+#ifnmphicbv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1868,63 +1869,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#bfyzhilrpu .gt_left {
+#ifnmphicbv .gt_left {
   text-align: left;
 }
 
-#bfyzhilrpu .gt_center {
+#ifnmphicbv .gt_center {
   text-align: center;
 }
 
-#bfyzhilrpu .gt_right {
+#ifnmphicbv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bfyzhilrpu .gt_font_normal {
+#ifnmphicbv .gt_font_normal {
   font-weight: normal;
 }
 
-#bfyzhilrpu .gt_font_bold {
+#ifnmphicbv .gt_font_bold {
   font-weight: bold;
 }
 
-#bfyzhilrpu .gt_font_italic {
+#ifnmphicbv .gt_font_italic {
   font-style: italic;
 }
 
-#bfyzhilrpu .gt_super {
+#ifnmphicbv .gt_super {
   font-size: 65%;
 }
 
-#bfyzhilrpu .gt_footnote_marks {
+#ifnmphicbv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bfyzhilrpu .gt_asterisk {
+#ifnmphicbv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bfyzhilrpu .gt_indent_1 {
+#ifnmphicbv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bfyzhilrpu .gt_indent_2 {
+#ifnmphicbv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bfyzhilrpu .gt_indent_3 {
+#ifnmphicbv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bfyzhilrpu .gt_indent_4 {
+#ifnmphicbv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bfyzhilrpu .gt_indent_5 {
+#ifnmphicbv .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2037,7 +2038,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The bottom 5 are all under 40%. Some are familiar favorites like the Cleveland Browns, some, like the New England Patriots, are new to the depressing franchise club. The Las Vegas Raiders take the cake with a dismal 29.69% hit rate, and have only hit on 2 of their last 10 first round picks.</p>
-<p>Like I anticipated before I started this project, the Kansas City Chiefs have been the best-drafting franchise in the last 8 years. Their combination of home run draft picks and high overall hit rate has built a Super Bowl caliber roster year after year.</p>
+<p>It’s worth noting that this blog is strictly looking at pick/player value, there are a lot of other factors in a franchise besides drafts. Like I anticipated before I started this project, the Kansas City Chiefs have been the best-drafting franchise in the last 8 years. Their combination of home run draft picks and high overall hit rate has built a Super Bowl caliber roster year after year.</p>
 
 
 
